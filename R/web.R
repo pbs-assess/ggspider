@@ -7,7 +7,6 @@
 #'  holds the names of the 'web' data groups, with 'x' and 'y' representing points on each
 #'  spoke, with each group having number of rows = number of spokes plus one (the first one
 #'  repeats at the end so that plot lines will connect).
-#' @export
 #'
 #' @examples
 #' df <- data.frame(nm = c("A", "B", "C"),

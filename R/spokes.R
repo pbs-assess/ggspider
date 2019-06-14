@@ -4,7 +4,6 @@
 #'
 #' @return A data frame with num rows and columns x, y, xend, and yend representing the x-y
 #' start and end coordinates of the spokes
-#' @export
 #'
 #' @examples
 #' calc_spokes(5)

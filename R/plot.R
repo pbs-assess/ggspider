@@ -1,3 +1,14 @@
+#' Title
+#'
+#' @param df
+#' @param grp_col
+#' @param spk_col
+#' @param value_col
+#'
+#' @return
+#' @export
+#'
+#' @examples
 spider_web <- function(df,
                        grp_col = "nm",
                        spk_col = "spk",
