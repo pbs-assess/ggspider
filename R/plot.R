@@ -6,6 +6,7 @@
 #' @param value_col
 #'
 #' @return
+#' @importFrom ggplot2 ggplot aes geom_path geom_segment geom_text coord_equal labs theme scale_color_brewer element_blank
 #' @export
 #'
 #' @examples
@@ -51,13 +52,13 @@ spider_web <- function(df,
     coord_equal() +
     geom_text(data = spokes, aes(
       x = xend * 1.1, y = yend * 1.1,
-      label = nms
+      label = grp_nms
     ), colour = "grey30") +
-    geom_text(
-      data = label_data,
-      aes(x = x, y = y, label = y), colour = "grey50",
-      nudge_y = 0.04, hjust = 0, nudge_x = 0.01
-    ) +
+    # geom_text(
+    #   data = label_data,
+    #   aes(x = x, y = y, label = y), colour = "grey50",
+    #   nudge_y = 0.04, hjust = 0, nudge_x = 0.01
+    # ) +
     gfplot::theme_pbs() +
     labs(colour = "MP") +
     # scale_color_viridis_d() +
