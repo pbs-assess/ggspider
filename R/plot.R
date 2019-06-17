@@ -1,24 +1,50 @@
-#' Title
+#' Make a spider web plot
 #'
-#' @param df
-#' @param grp_col
-#' @param spk_col
-#' @param value_col
+#' @param df A data.frame representing groups and spokes for the plot (see examples)
+#' @param grp_col The name of the column used for groups
+#' @param spk_col The name of the column used for spokes
+#' @param value_col The name of the column used for the values of each group along the spokes
+#' @param spoke_color Single value for color of the spokes
+#' @param spoke_lty Single value for the line type of the spokes
+#' @param ref_lines_val A vector of reference line values to plot
+#' @param ref_lines_color A vector of reference line colors
+#' @param ref_lines_type vector of reference line types
+#' @param ref_label_color A vector of reference label colors
+#' @param ref_lines_label_spoke A vector of reference label locations (spoke number)
+#' @param show_legend Show legend?
 #'
 #' @return
 #' @importFrom ggplot2 ggplot aes geom_path geom_segment geom_text coord_equal labs theme scale_color_brewer element_blank
 #' @importFrom tidyr spread
 #' @importFrom dplyr mutate select
-#' @importFrom magrittr `%>%``
 #' @export
 #'
 #' @examples
+#' df <- data.frame(nm = c("A", "B", "C",
+#' "A", "B", "C",
+#' "A", "B", "C",
+#' "A", "B", "C",
+#' "A", "B", "C"),
+#' spk = c("P1", "P1", "P1",
+#'         "P2", "P2", "P2",
+#'         "P3", "P3", "P3",
+#'         "P4", "P4", "P4",
+#'         "P5", "P5", "P5"),
+#' value = c(.1, .2, .3,
+#'           .4, .5, .6,
+#'           .7, .8, .9,
+#'           .10, .11, .12,
+#'           .13, .14, .15))
+#' spider_web(df,
+#'            ref_lines_label_spoke = c(4,3,0),
+#'            ref_lines_type = c(2, 3, 4),
+#'            ref_lines_color = c("black", "royalblue", "salmon"))
 spider_web <- function(df,
                        grp_col = "nm",
                        spk_col = "spk",
                        value_col = "value",
                        spoke_color = "grey75",
-                       spoke_lty = 1,
+                       spoke_lty = 1L,
                        ref_lines_val = c(0.5, 0.75, 1),
                        ref_lines_color = c("grey75", "grey75", "grey75"),
                        ref_lines_type = c(2, 2, 2),
@@ -26,8 +52,48 @@ spider_web <- function(df,
                        ref_lines_label_spoke = c(1, 1, 1),
                        show_legend = TRUE){
 
-  if(is.na(df) || class(df) != "data.frame" || length(df) < 3 || nrow(df) < 2){
-    stop("Argument 'df' must be a data frame with at least one row and three columns")
+  if(is.na(df) || class(df) != "data.frame" || length(df) < 3 || nrow(df) < 1){
+    stop("Argument 'df' must be a data frame with at least one and three columns")
+  }
+  if(class(grp_col) != "character" | length(grp_col) != 1 | !grp_col %in% names(df)){
+    stop("grp_col is either of the wrong type or is not a column of df",
+         call. = FALSE)
+  }
+  if(class(spk_col) != "character" | length(spk_col) != 1 | !spk_col %in% names(df)){
+    stop("spk_col is either of the wrong type or is not a column of df",
+         call. = FALSE)
+  }
+  if(class(value_col) != "character" | length(value_col) != 1 | !value_col %in% names(df)){
+    stop("value_col is either of the wrong type or is not a column of df",
+         call. = FALSE)
+  }
+  if(class(spoke_lty) != "integer" | length(spoke_lty) != 1){
+    stop("spoke_lty must be a single integer value",
+         call. = FALSE)
+  }
+  if(class(ref_lines_val) != "numeric"){
+    stop("ref_lines_val must be a vector of numeric values",
+         call. = FALSE)
+  }
+  if(class(ref_lines_color) != "character" & class(ref_lines_color) != "numeric"){
+    stop("ref_lines_color must be a vector of character values (color names) or numeric values representing colors",
+         call. = FALSE)
+  }
+  if(class(ref_lines_type) != "numeric"){
+    stop("ref_lines_type must be a vector of numeric values",
+         call. = FALSE)
+  }
+  if(class(ref_label_color) != "character" & class(ref_label_color) != "numeric"){
+    stop("ref_label_color must be a vector of character values (color names) or numeric values representing colors",
+         call. = FALSE)
+  }
+  if(class(ref_lines_label_spoke) != "numeric"){
+    stop("ref_lines_label_spoke must be a vector of numeric values",
+         call. = FALSE)
+  }
+  if(class(show_legend) != "logical" | length(show_legend) > 1){
+    stop("show_legend must be a single TRUE or FALSE value",
+         call. = FALSE)
   }
 
   if(length(ref_lines_val) != length(ref_lines_color) |
@@ -41,19 +107,23 @@ spider_web <- function(df,
   grp_nms <- as.character(unique(df[,grp_col, drop = TRUE]))
   spk_nms <- as.character(unique(df[,spk_col, drop = TRUE]))
   spokes <- calc_spokes(length(spk_nms))
+  if(any(ref_lines_label_spoke > nrow(spokes))){
+    stop("ref_lines_label_spoke cannot have a value greater than the number of spokes, ", nrow(spokes),
+         call. = FALSE)
+  }
   spokes$spk_nms <- spk_nms
   ds <- tidyr::spread(df, key = spk_col, value = value_col)
-  spider_data <- calc_web(ds)
   browser()
-  ref_lines_attr <- data.frame(grp_nms = grp_nms,
+  spider_data <- calc_web(ds)
+  ref_lines_attr <- data.frame(line_num = 1:length(ref_lines_val),
                                x = ref_lines_val,
                                color = ref_lines_color,
                                type = ref_lines_type)
   ref_lines_data <- data.frame()
   for(i in seq_along(ref_lines_val)){
-     k <- rbind(spokes, spokes[1,]) %>%
+    k <- rbind(spokes, spokes[1,]) %>%
        dplyr::select(-c(x, y, spk_nms)) %>%
-       dplyr::mutate(grp_nms = ref_lines_attr[i,]$grp_nms,
+       dplyr::mutate(line_num = ref_lines_attr[i,]$line_num,
                      x = xend * ref_lines_attr[i,]$x,
                      y = yend * ref_lines_attr[i,]$x,
                      color = ref_lines_attr[i,]$color,
@@ -79,7 +149,7 @@ spider_web <- function(df,
       data = spokes,
       aes(x = x, y = y, xend = xend, yend = yend), color = spoke_color, lty = spoke_lty) +
     geom_path(data = ref_lines_data,
-              aes(x, y, group = grp_nms), color = ref_lines_data$color, lty = ref_lines_data$lty,
+              aes(x, y, group = line_num), color = ref_lines_data$color, lty = ref_lines_data$lty,
               inherit.aes = FALSE ) +
      geom_path(aes(colour = as.factor(group)), lwd = 0.8) +
      coord_equal() +

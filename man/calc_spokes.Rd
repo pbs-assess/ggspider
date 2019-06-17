@@ -17,5 +17,5 @@ start and end coordinates of the spokes
 Calculate the 'spokes' of the spider plot
 }
 \examples{
-calc_spokes(5)
+calc_spokes(5L)
 }

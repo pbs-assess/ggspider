@@ -20,8 +20,21 @@ A data.frame in 'long' format with columns 'group', 'x', and 'y' where group
 Title
 }
 \examples{
-df <- data.frame(nm = c("A", "B", "C"),
-                 grp1 = c(1, 2, 3),
-                 grp2 = c(4, 5, 6))
-web <- calc_web(df)
+df <- data.frame(nm = c("A", "B", "C",
+  "A", "B", "C",
+  "A", "B", "C",
+  "A", "B", "C",
+  "A", "B", "C"),
+spk = c("P1", "P1", "P1",
+        "P2", "P2", "P2",
+        "P3", "P3", "P3",
+        "P4", "P4", "P4",
+        "P5", "P5", "P5"),
+value = c(.1, .2, .3,
+          .4, .5, .6,
+          .7, .8, .9,
+          .10, .11, .12,
+          .13, .14, .15))
+ds <- tidyr::spread(df, key = "spk", value = "value")
+web <- calc_web(ds)
 }

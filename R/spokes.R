@@ -6,7 +6,7 @@
 #' start and end coordinates of the spokes
 #'
 #' @examples
-#' calc_spokes(5)
+#' calc_spokes(5L)
 calc_spokes <- function(num){
   if(missing(num)){
     stop("Argument 'num' is required",

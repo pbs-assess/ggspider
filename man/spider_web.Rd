@@ -2,13 +2,60 @@
 % Please edit documentation in R/plot.R
 \name{spider_web}
 \alias{spider_web}
-\title{Title}
+\title{Make a spider web plot}
 \usage{
-spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value")
+spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
+  spoke_color = "grey75", spoke_lty = 1L, ref_lines_val = c(0.5,
+  0.75, 1), ref_lines_color = c("grey75", "grey75", "grey75"),
+  ref_lines_type = c(2, 2, 2), ref_label_color = c("red", "green",
+  "blue"), ref_lines_label_spoke = c(1, 1, 1), show_legend = TRUE)
 }
 \arguments{
-\item{value_col}{}
+\item{df}{A data.frame representing groups and spokes for the plot (see examples)}
+
+\item{grp_col}{The name of the column used for groups}
+
+\item{spk_col}{The name of the column used for spokes}
+
+\item{value_col}{The name of the column used for the values of each group along the spokes}
+
+\item{spoke_color}{Single value for color of the spokes}
+
+\item{spoke_lty}{Single value for the line type of the spokes}
+
+\item{ref_lines_val}{A vector of reference line values to plot}
+
+\item{ref_lines_color}{A vector of reference line colors}
+
+\item{ref_lines_type}{vector of reference line types}
+
+\item{ref_label_color}{A vector of reference label colors}
+
+\item{ref_lines_label_spoke}{A vector of reference label locations (spoke number)}
+
+\item{show_legend}{Show legend?}
 }
 \description{
-Title
+Make a spider web plot
+}
+\examples{
+df <- data.frame(nm = c("A", "B", "C",
+"A", "B", "C",
+"A", "B", "C",
+"A", "B", "C",
+"A", "B", "C"),
+spk = c("P1", "P1", "P1",
+        "P2", "P2", "P2",
+        "P3", "P3", "P3",
+        "P4", "P4", "P4",
+        "P5", "P5", "P5"),
+value = c(.1, .2, .3,
+          .4, .5, .6,
+          .7, .8, .9,
+          .10, .11, .12,
+          .13, .14, .15))
+spider_web(df,
+           ref_lines_label_spoke = c(4,3,0),
+           ref_lines_type = c(2, 3, 4),
+           ref_lines_color = c("black", "royalblue", "salmon"))
 }
