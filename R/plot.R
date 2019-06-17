@@ -113,7 +113,6 @@ spider_web <- function(df,
   }
   spokes$spk_nms <- spk_nms
   ds <- tidyr::spread(df, key = spk_col, value = value_col)
-  browser()
   spider_data <- calc_web(ds)
   ref_lines_attr <- data.frame(line_num = 1:length(ref_lines_val),
                                x = ref_lines_val,
