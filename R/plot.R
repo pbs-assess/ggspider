@@ -159,7 +159,11 @@ spider_web <- function(df,
       data = spokes,
       aes(x = x, y = y, xend = xend, yend = yend), color = spoke_color, lty = spoke_lty) +
     geom_path(data = ref_lines_data,
-              aes(x, y, group = line_num), color = ref_lines_data$color, lty = ref_lines_data$lty,
+              aes(x,
+                  y,
+                  group = line_num),
+              color = ref_lines_data$color,
+              lty = ref_lines_data$lty,
               inherit.aes = FALSE ) +
      geom_path(aes(colour = as.factor(group)), lwd = 0.8) +
      coord_equal() +
