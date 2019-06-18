@@ -5,12 +5,14 @@
 #' @param spk_col The name of the column used for spokes
 #' @param value_col The name of the column used for the values of each group along the spokes
 #' @param spoke_color Single value for color of the spokes
-#' @param spoke_lty Single value for the line type of the spokes
+#' @param spoke_lty Single integer value for the line type of the spokes
 #' @param ref_lines_val A vector of reference line values to plot
 #' @param ref_lines_color A vector of reference line colors
 #' @param ref_lines_type vector of reference line types
 #' @param ref_label_color A vector of reference label colors
-#' @param ref_lines_label_spoke A vector of reference label locations (spoke number)
+#' @param ref_lines_label_spoke A vector of reference label locations (spoke number). A value of
+#'  zero means that the label will not be printed
+#' @param palette As defined in [ggplot2::scale_color_brewer()]
 #' @param show_legend Show legend?
 #'
 #' @return
@@ -44,12 +46,15 @@ spider_web <- function(df,
                        spk_col = "spk",
                        value_col = "value",
                        spoke_color = "grey75",
-                       spoke_lty = 1L,
+                       spoke_lty = 1,
                        ref_lines_val = c(0.5, 0.75, 1),
                        ref_lines_color = c("grey75", "grey75", "grey75"),
                        ref_lines_type = c(2, 2, 2),
-                       ref_label_color = c("red", "green", "blue"),
-                       ref_lines_label_spoke = c(1, 1, 1),
+                       ref_label_color = c("grey50", "grey50", "grey50"),
+                       ref_lines_label_spoke = c(length(unique(df[,spk_col, drop = TRUE])),
+                                                 length(unique(df[,spk_col, drop = TRUE])),
+                                                 0),
+                       palette = "Set2",
                        show_legend = TRUE){
 
   if(is.na(df) || class(df) != "data.frame" || length(df) < 3 || nrow(df) < 1){
@@ -67,8 +72,14 @@ spider_web <- function(df,
     stop("value_col is either of the wrong type or is not a column of df",
          call. = FALSE)
   }
-  if(class(spoke_lty) != "integer" | length(spoke_lty) != 1){
-    stop("spoke_lty must be a single integer value",
+  df <- df %>% select(grp_col, spk_col, value_col)
+
+  if(class(spoke_color) != "character" & class(spoke_color) != "numeric"){
+    stop("spoke_color must be a vector of character values (color names) or numeric values representing colors",
+         call. = FALSE)
+  }
+  if((class(spoke_lty) != "integer" & class(spoke_lty) != "numeric") | length(spoke_lty) != 1){
+    stop("spoke_lty must be a single numeric value",
          call. = FALSE)
   }
   if(class(ref_lines_val) != "numeric"){
@@ -87,7 +98,7 @@ spider_web <- function(df,
     stop("ref_label_color must be a vector of character values (color names) or numeric values representing colors",
          call. = FALSE)
   }
-  if(class(ref_lines_label_spoke) != "numeric"){
+  if(class(ref_lines_label_spoke) != "integer" & class(ref_lines_label_spoke) != "numeric"){
     stop("ref_lines_label_spoke must be a vector of numeric values",
          call. = FALSE)
   }
@@ -158,12 +169,7 @@ spider_web <- function(df,
      ), colour = "grey30") +
     gfplot::theme_pbs() +
     labs(colour = "MP") +
-    # scale_color_viridis_d() +
-    scale_color_brewer(palette = "Set2") +
-    # guides(colour = FALSE) +
-    # ggrepel::geom_text_repel(data = labs,
-    #   aes(x = xx, y = yy, label = group, colour = group),
-    #   nudge_y = 0.1, nudge_x = -0.1) +
+    scale_color_brewer(palette = palette) +
     theme(
       axis.line = element_blank(),
       axis.text.x = element_blank(),
