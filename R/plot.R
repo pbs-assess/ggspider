@@ -58,7 +58,7 @@ spider_web <- function(df,
                        show_legend = TRUE){
 
   if(is.na(df) || class(df) != "data.frame" || length(df) < 3 || nrow(df) < 1){
-    stop("Argument 'df' must be a data frame with at least one and three columns")
+    stop("Argument 'df' must be a data frame with at least one row and three columns")
   }
   if(class(grp_col) != "character" | length(grp_col) != 1 | !grp_col %in% names(df)){
     stop("grp_col is either of the wrong type or is not a column of df",
