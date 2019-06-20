@@ -12,6 +12,10 @@
 #' @param ref_label_color A vector of reference label colors
 #' @param ref_lines_label_spoke A vector of reference label locations (spoke number). A value of
 #'  zero means that the label will not be printed
+#' @param diff_lty_by_name This is an optional string which will be used to [grep()] the names
+#'  of the values given in column grp_col. If they match, the diff_lty value will be used for
+#'  line type for those lines
+#' @param diff_lty Line type to use for grp_col values that diff_lty_by_name matches with [grep()]
 #' @param palette As defined in [ggplot2::scale_color_brewer()]
 #' @param show_legend Show legend?
 #'
@@ -54,6 +58,8 @@ spider_web <- function(df,
                        ref_lines_label_spoke = c(length(unique(df[,spk_col, drop = TRUE])),
                                                  length(unique(df[,spk_col, drop = TRUE])),
                                                  0),
+                       diff_lty_by_name = "ref",
+                       diff_lty = 2,
                        palette = "Set2",
                        show_legend = TRUE){
 
@@ -129,6 +135,8 @@ spider_web <- function(df,
                                x = ref_lines_val,
                                color = ref_lines_color,
                                type = ref_lines_type)
+
+  # ref lines calculations
   ref_lines_data <- data.frame()
   for(i in seq_along(ref_lines_val)){
     k <- rbind(spokes, spokes[1,]) %>%
@@ -153,6 +161,16 @@ spider_web <- function(df,
     label_data$y <- label_data$y * sin(theta)
   }
 
+  # diff_lty and diff_lty_by_name calculations
+  if(diff_lty_by_name != ""){
+    lty <- rep(1, length(grp_nms))
+    diff_mtch <- grep(diff_lty_by_name, grp_nms)
+    lty[diff_mtch] <- diff_lty
+    lty_df <- data.frame(group = grp_nms, lty = lty)
+    spider_data <- spider_data %>%
+      left_join(lty_df)
+  }
+
   g <- spider_data %>%
     ggplot(aes(x = x, y = y)) +
     geom_segment(
@@ -165,7 +183,7 @@ spider_web <- function(df,
               color = ref_lines_data$color,
               lty = ref_lines_data$lty,
               inherit.aes = FALSE ) +
-     geom_path(aes(colour = as.factor(group)), lwd = 0.8) +
+     geom_path(aes(colour = as.factor(group), lty = as.factor(lty)), lwd = 0.8) +
      coord_equal() +
      geom_text(data = spokes, aes(
        x = xend * 1.1, y = yend * 1.1,
