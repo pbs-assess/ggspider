@@ -31,7 +31,7 @@ calc_web <- function(mydf){
     stop("Argument 'mydf' is required",
          call. = FALSE)
   }
-  if(is.na(mydf) || class(mydf) != "data.frame" || length(mydf) < 2 || nrow(mydf) < 1){
+  if(is.na(mydf) || !any("data.frame" %in% class(mydf)) || length(mydf) < 2 || nrow(mydf) < 1){
     stop("Argument 'mydf' must be a data frame with at least one row and two columns")
   }
   df <- cbind(mydf[, -1], mydf[,2])

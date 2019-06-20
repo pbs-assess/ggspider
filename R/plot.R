@@ -57,7 +57,7 @@ spider_web <- function(df,
                        palette = "Set2",
                        show_legend = TRUE){
 
-  if(is.na(df) || class(df) != "data.frame" || length(df) < 3 || nrow(df) < 1){
+  if(is.na(df) || !any("data.frame" %in% class(df)) || length(df) < 3 || nrow(df) < 1){
     stop("Argument 'df' must be a data frame with at least one row and three columns")
   }
   if(class(grp_col) != "character" | length(grp_col) != 1 | !grp_col %in% names(df)){
