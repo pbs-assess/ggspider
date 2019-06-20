@@ -171,11 +171,18 @@ spider_web <- function(df,
       left_join(lty_df)
   }
 
+  # spokes are off by one
+  spokes$spk_nms <- c(tail(spokes$spk_nms, -1), head(spokes$spk_nms, 1))
+
   g <- spider_data %>%
     ggplot(aes(x = x, y = y)) +
-    geom_segment(
-      data = spokes,
-      aes(x = x, y = y, xend = xend, yend = yend), color = spoke_color, lty = spoke_lty) +
+    geom_segment(data = spokes,
+                 aes(x = x,
+                     y = y,
+                     xend = xend,
+                     yend = yend),
+                 color = spoke_color,
+                 lty = spoke_lty) +
     geom_path(data = ref_lines_data,
               aes(x,
                   y,
@@ -183,12 +190,15 @@ spider_web <- function(df,
               color = ref_lines_data$color,
               lty = ref_lines_data$lty,
               inherit.aes = FALSE ) +
-     geom_path(aes(colour = as.factor(group), lty = as.factor(lty)), lwd = 0.8) +
+     geom_path(aes(colour = as.factor(group),
+                   lty = as.factor(lty)),
+               lwd = 0.8) +
      coord_equal() +
-     geom_text(data = spokes, aes(
-       x = xend * 1.1, y = yend * 1.1,
-       label = spk_nms
-     ), colour = "grey30") +
+     geom_text(data = spokes,
+               aes(x = xend * 1.1,
+                   y = yend * 1.1,
+                   label = spk_nms),
+               colour = "grey30") +
     gfplot::theme_pbs() +
     labs(colour = "MP") +
     scale_color_brewer(palette = palette) +
