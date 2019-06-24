@@ -5,10 +5,14 @@
 \title{Make a spider web plot}
 \usage{
 spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
-  spoke_color = "grey75", spoke_lty = 1L, ref_lines_val = c(0.5,
-  0.75, 1), ref_lines_color = c("grey75", "grey75", "grey75"),
-  ref_lines_type = c(2, 2, 2), ref_label_color = c("red", "green",
-  "blue"), ref_lines_label_spoke = c(1, 1, 1), show_legend = TRUE)
+  spoke_color = "grey75", spoke_lty = 1, ref_lines_val = c(0.5, 0.75,
+  1), ref_lines_color = c("grey75", "grey75", "grey75"),
+  ref_lines_type = c(1, 1, 1), ref_label_color = c("grey50", "grey50",
+  "grey50"), ref_lines_label_spoke = c(length(unique(df[, spk_col, drop =
+  TRUE])), length(unique(df[, spk_col, drop = TRUE])), 0),
+  diff_lty_by_name = "ref", diff_lty = 2, palette = "Set2",
+  show_legend = TRUE, leg_main_title = "Legend",
+  leg_lty_title = "Linetype")
 }
 \arguments{
 \item{df}{A data.frame representing groups and spokes for the plot (see examples)}
@@ -21,7 +25,7 @@ spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
 
 \item{spoke_color}{Single value for color of the spokes}
 
-\item{spoke_lty}{Single value for the line type of the spokes}
+\item{spoke_lty}{Single integer value for the line type of the spokes}
 
 \item{ref_lines_val}{A vector of reference line values to plot}
 
@@ -31,9 +35,22 @@ spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
 
 \item{ref_label_color}{A vector of reference label colors}
 
-\item{ref_lines_label_spoke}{A vector of reference label locations (spoke number)}
+\item{ref_lines_label_spoke}{A vector of reference label locations (spoke number). A value of
+zero means that the label will not be printed}
+
+\item{diff_lty_by_name}{This is an optional string which will be used to [grep()] the names
+of the values given in column grp_col. If they match, the diff_lty value will be used for
+line type for those lines}
+
+\item{diff_lty}{Line type to use for grp_col values that diff_lty_by_name matches with [grep()]}
+
+\item{palette}{As defined in [ggplot2::scale_color_brewer()]}
 
 \item{show_legend}{Show legend?}
+
+\item{leg_main_title}{Main legend title}
+
+\item{leg_lty_title}{Linetype legend title}
 }
 \description{
 Make a spider web plot

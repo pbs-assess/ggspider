@@ -6,7 +6,7 @@ setwd(test_dir)
 
 ## ------------------------------------------------------------------------------------------------
 context("Make a simple set of spokes")
-spk <- calc_spokes(5L)
+spk <- calc_spokes(5)
 test_that("calc_spokes() gives correctly formatted data frame", {
   expect_true(nrow(spk) == 5)
   expect_true(ncol(spk) == 4)

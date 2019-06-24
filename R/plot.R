@@ -18,11 +18,17 @@
 #' @param diff_lty Line type to use for grp_col values that diff_lty_by_name matches with [grep()]
 #' @param palette As defined in [ggplot2::scale_color_brewer()]
 #' @param show_legend Show legend?
+#' @param leg_main_title Main legend title
+#' @param leg_lty_title Linetype legend title
 #'
 #' @return
-#' @importFrom ggplot2 ggplot aes geom_path geom_segment geom_text coord_equal labs theme scale_color_brewer element_blank
+#' @importFrom ggplot2 ggplot aes geom_path geom_segment geom_text coord_equal
+#' @importFrom ggplot2 labs theme scale_color_brewer element_blank
+#'
 #' @importFrom tidyr spread
-#' @importFrom dplyr mutate select
+#' @importFrom dplyr mutate select left_join
+#' @importFrom magrittr "%>%"
+#' @importFrom utils head tail
 #' @export
 #'
 #' @examples
@@ -53,7 +59,7 @@ spider_web <- function(df,
                        spoke_lty = 1,
                        ref_lines_val = c(0.5, 0.75, 1),
                        ref_lines_color = c("grey75", "grey75", "grey75"),
-                       ref_lines_type = c(2, 2, 2),
+                       ref_lines_type = c(1, 1, 1),
                        ref_label_color = c("grey50", "grey50", "grey50"),
                        ref_lines_label_spoke = c(length(unique(df[,spk_col, drop = TRUE])),
                                                  length(unique(df[,spk_col, drop = TRUE])),
@@ -61,9 +67,11 @@ spider_web <- function(df,
                        diff_lty_by_name = "ref",
                        diff_lty = 2,
                        palette = "Set2",
-                       show_legend = TRUE){
+                       show_legend = TRUE,
+                       leg_main_title = "Legend",
+                       leg_lty_title = "Linetype"){
 
-  if(is.na(df) || !any("data.frame" %in% class(df)) || length(df) < 3 || nrow(df) < 1){
+  if(!any("data.frame" %in% class(df)) || length(df) < 3 || nrow(df) < 1){
     stop("Argument 'df' must be a data frame with at least one row and three columns")
   }
   if(class(grp_col) != "character" | length(grp_col) != 1 | !grp_col %in% names(df)){
@@ -163,9 +171,11 @@ spider_web <- function(df,
 
   # diff_lty and diff_lty_by_name calculations
   if(diff_lty_by_name != ""){
-    lty <- rep(1, length(grp_nms))
+    lty <- rep("default", length(grp_nms))
+    #lty <- rep(1, length(grp_nms))
     diff_mtch <- grep(diff_lty_by_name, grp_nms)
-    lty[diff_mtch] <- diff_lty
+    lty[diff_mtch] <- diff_lty_by_name
+    #lty[diff_mtch] <- diff_lty
     lty_df <- data.frame(group = grp_nms, lty = lty)
     spider_data <- spider_data %>%
       left_join(lty_df)
@@ -189,9 +199,9 @@ spider_web <- function(df,
                   group = line_num),
               color = ref_lines_data$color,
               lty = ref_lines_data$lty,
-              inherit.aes = FALSE ) +
-     geom_path(aes(colour = as.factor(group),
-                   lty = as.factor(lty)),
+              inherit.aes = FALSE) +
+     geom_path(aes(color = as.factor(group),
+                   linetype = as.factor(lty)),
                lwd = 0.8) +
      coord_equal() +
      geom_text(data = spokes,
@@ -200,8 +210,8 @@ spider_web <- function(df,
                    label = spk_nms),
                colour = "grey30") +
     gfplot::theme_pbs() +
-    labs(colour = "MP") +
-    scale_color_brewer(palette = palette) +
+    scale_color_brewer(name = leg_main_title, palette = palette, guide = "legend") +
+    labs(color  = leg_lty_title, linetype = leg_lty_title) +
     theme(
       axis.line = element_blank(),
       axis.text.x = element_blank(),

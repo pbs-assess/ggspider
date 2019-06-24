@@ -20,6 +20,7 @@ A data.frame in 'long' format with columns 'group', 'x', and 'y' where group
 Title
 }
 \examples{
+\dontrun{
 df <- data.frame(nm = c("A", "B", "C",
   "A", "B", "C",
   "A", "B", "C",
@@ -37,4 +38,5 @@ value = c(.1, .2, .3,
           .13, .14, .15))
 ds <- tidyr::spread(df, key = "spk", value = "value")
 web <- calc_web(ds)
+}
 }

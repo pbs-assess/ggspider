@@ -9,6 +9,7 @@
 #'  repeats at the end so that plot lines will connect).
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(nm = c("A", "B", "C",
 #'   "A", "B", "C",
 #'   "A", "B", "C",
@@ -26,12 +27,13 @@
 #'           .13, .14, .15))
 #'ds <- tidyr::spread(df, key = "spk", value = "value")
 #'web <- calc_web(ds)
+#'}
 calc_web <- function(mydf){
   if(missing(mydf)){
     stop("Argument 'mydf' is required",
          call. = FALSE)
   }
-  if(is.na(mydf) || !any("data.frame" %in% class(mydf)) || length(mydf) < 2 || nrow(mydf) < 1){
+  if(!any("data.frame" %in% class(mydf)) || length(mydf) < 2 || nrow(mydf) < 1){
     stop("Argument 'mydf' must be a data frame with at least one row and two columns")
   }
   df <- cbind(mydf[, -1], mydf[,2])
