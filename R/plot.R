@@ -211,7 +211,7 @@ spider_web <- function(df,
                colour = "grey30") +
     gfplot::theme_pbs() +
     scale_color_brewer(name = leg_main_title, palette = palette, guide = "legend") +
-    labs(color  = leg_lty_title, linetype = leg_lty_title) +
+    scale_linetype_discrete(guide = FALSE) +
     theme(
       axis.line = element_blank(),
       axis.text.x = element_blank(),
@@ -235,5 +235,7 @@ spider_web <- function(df,
   if(!show_legend){
     g <- g + theme(legend.position = "none")
   }
+  g <- g + labs(linetype = leg_lty_title)
+
   g
 }
