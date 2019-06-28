@@ -178,7 +178,7 @@ spider_web <- function(df,
     #lty[diff_mtch] <- diff_lty
     lty_df <- data.frame(group = grp_nms, lty = lty)
     spider_data <- spider_data %>%
-      left_join(lty_df)
+      left_join(lty_df, by = "group")
   }
 
   # spokes are off by one
