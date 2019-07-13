@@ -22,26 +22,34 @@ test_that("erroneous values of argument 'num' cause an error", {
   expect_error(calc_spokes(-1))
   expect_error(calc_spokes(c(1, 2)))
   expect_error(calc_spokes("a"))
-  expect_error(calc_spokes(matrix(1, nrow=1)))
+  expect_error(calc_spokes(matrix(1, nrow = 1)))
 })
 
 ## ------------------------------------------------------------------------------------------------
 context("Make a simple web (data object)")
-df <- data.frame(nm = c("A", "B", "C",
-                        "A", "B", "C",
-                        "A", "B", "C",
-                        "A", "B", "C",
-                        "A", "B", "C"),
-                 spk = c("P1", "P1", "P1",
-                         "P2", "P2", "P2",
-                         "P3", "P3", "P3",
-                         "P4", "P4", "P4",
-                         "P5", "P5", "P5"),
-                 value = c(.1, .2, .3,
-                           .4, .5, .6,
-                           .7, .8, .9,
-                           .10, .11, .12,
-                           .13, .14, .15))
+df <- data.frame(
+  nm = c(
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C"
+  ),
+  spk = c(
+    "P1", "P1", "P1",
+    "P2", "P2", "P2",
+    "P3", "P3", "P3",
+    "P4", "P4", "P4",
+    "P5", "P5", "P5"
+  ),
+  value = c(
+    .1, .2, .3,
+    .4, .5, .6,
+    .7, .8, .9,
+    .10, .11, .12,
+    .13, .14, .15
+  )
+)
 ds <- tidyr::spread(df, key = "spk", value = "value")
 web <- calc_web(ds)
 test_that("calc_web() gives correctly formatted data frame", {
@@ -58,7 +66,7 @@ test_that("erroneous values of argument 'mydf' cause an error", {
   expect_error(calc_web(1))
   expect_error(calc_web(c(1, 2)))
   expect_error(calc_web("a"))
-  expect_error(calc_web(matrix(1, nrow=1)))
+  expect_error(calc_web(matrix(1, nrow = 1)))
   expect_error(calc_web(data.frame()))
   expect_error(calc_web(data.frame(nm = "a")))
   expect_error(calc_web(data.frame(nm = c("A", "B"))))
@@ -67,16 +75,22 @@ test_that("erroneous values of argument 'mydf' cause an error", {
 
 ## ------------------------------------------------------------------------------------------------
 context("Plot the spider web")
-err_df1 <- data.frame(nm = c("A", "B", "C",
-                             "A", "B", "C",
-                             "A", "B", "C",
-                             "A", "B", "C",
-                             "A", "B", "C"),
-                      spk = c("P1", "P1", "P1",
-                              "P2", "P2", "P2",
-                              "P3", "P3", "P3",
-                              "P4", "P4", "P4",
-                              "P5", "P5", "P5"))
+err_df1 <- data.frame(
+  nm = c(
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C"
+  ),
+  spk = c(
+    "P1", "P1", "P1",
+    "P2", "P2", "P2",
+    "P3", "P3", "P3",
+    "P4", "P4", "P4",
+    "P5", "P5", "P5"
+  )
+)
 err_df2 <- data.frame()
 
 test_that("erroneous values of arguments cause an error", {
@@ -86,6 +100,6 @@ test_that("erroneous values of arguments cause an error", {
   expect_error(spider_web(df, ref_lines_color = c("blue", "blue", "blue", "blue")))
   expect_error(spider_web(df, ref_lines_type = c(1, 1)))
   expect_error(spider_web(df, ref_label_color = c("red", "red")))
-  expect_error(spider_web(df, ref_lines_label_spoke = c(4,3,1,2)))
-  expect_error(spider_web(df, ref_lines_label_spoke = c(10,3,1)))
+  expect_error(spider_web(df, ref_lines_label_spoke = c(4, 3, 1, 2)))
+  expect_error(spider_web(df, ref_lines_label_spoke = c(10, 3, 1)))
 })

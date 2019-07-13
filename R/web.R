@@ -10,39 +10,51 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- data.frame(nm = c("A", "B", "C",
-#'   "A", "B", "C",
-#'   "A", "B", "C",
-#'   "A", "B", "C",
-#'   "A", "B", "C"),
-#' spk = c("P1", "P1", "P1",
-#'         "P2", "P2", "P2",
-#'         "P3", "P3", "P3",
-#'         "P4", "P4", "P4",
-#'         "P5", "P5", "P5"),
-#' value = c(.1, .2, .3,
-#'           .4, .5, .6,
-#'           .7, .8, .9,
-#'           .10, .11, .12,
-#'           .13, .14, .15))
-#'ds <- tidyr::spread(df, key = "spk", value = "value")
-#'web <- calc_web(ds)
-#'}
-calc_web <- function(mydf){
-  if(missing(mydf)){
+#' df <- data.frame(
+#'   nm = c(
+#'     "A", "B", "C",
+#'     "A", "B", "C",
+#'     "A", "B", "C",
+#'     "A", "B", "C",
+#'     "A", "B", "C"
+#'   ),
+#'   spk = c(
+#'     "P1", "P1", "P1",
+#'     "P2", "P2", "P2",
+#'     "P3", "P3", "P3",
+#'     "P4", "P4", "P4",
+#'     "P5", "P5", "P5"
+#'   ),
+#'   value = c(
+#'     .1, .2, .3,
+#'     .4, .5, .6,
+#'     .7, .8, .9,
+#'     .10, .11, .12,
+#'     .13, .14, .15
+#'   )
+#' )
+#' ds <- tidyr::spread(df, key = "spk", value = "value")
+#' web <- calc_web(ds)
+#' }
+calc_web <- function(mydf) {
+  if (missing(mydf)) {
     stop("Argument 'mydf' is required",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
-  if(!any("data.frame" %in% class(mydf)) || length(mydf) < 2 || nrow(mydf) < 1){
+  if (!any("data.frame" %in% class(mydf)) || length(mydf) < 2 || nrow(mydf) < 1) {
     stop("Argument 'mydf' must be a data frame with at least one row and two columns")
   }
-  df <- cbind(mydf[, -1], mydf[,2])
+  df <- cbind(mydf[, -1], mydf[, 2])
   myvec <- c(t(df))
   angles <- seq(from = 0, to = 2 * pi, by = (2 * pi) / (ncol(df) - 1))
   xx <- myvec * sin(rep(c(angles[-ncol(df)], angles[1]), nrow(df)))
   yy <- myvec * cos(rep(c(angles[-ncol(df)], angles[1]), nrow(df)))
-  data.frame(group = rep(as.character(mydf[, 1, drop = TRUE]),
-                         each = ncol(mydf)),
-             x = xx,
-             y = yy)
+  data.frame(
+    group = rep(as.character(mydf[, 1, drop = TRUE]),
+      each = ncol(mydf)
+    ),
+    x = xx,
+    y = yy
+  )
 }
