@@ -38,13 +38,13 @@ spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
 \item{ref_lines_label_spoke}{A vector of reference label locations (spoke number). A value of
 zero means that the label will not be printed}
 
-\item{diff_lty_by_name}{This is an optional string which will be used to [grep()] the names
-of the values given in column grp_col. If they match, the diff_lty value will be used for
+\item{diff_lty_by_name}{This is an optional string which will be used to \code{\link[=grep]{grep()}} the names
+of the values given in column grp_col. If they match, the \code{diff_lty} value will be used for
 line type for those lines}
 
-\item{diff_lty}{Line type to use for grp_col values that diff_lty_by_name matches with [grep()]}
+\item{diff_lty}{Line type to use for \code{grp_col} values that \code{diff_lty_by_name} matches with \code{\link[=grep]{grep()}}}
 
-\item{palette}{As defined in [ggplot2::scale_color_brewer()]}
+\item{palette}{As defined in \code{\link[ggplot2:scale_color_brewer]{ggplot2::scale_color_brewer()}}}
 
 \item{show_legend}{Show legend?}
 
@@ -56,23 +56,32 @@ line type for those lines}
 Make a spider web plot
 }
 \examples{
-df <- data.frame(nm = c("A", "B", "C",
-"A", "B", "C",
-"A", "B", "C",
-"A", "B", "C",
-"A", "B", "C"),
-spk = c("P1", "P1", "P1",
-        "P2", "P2", "P2",
-        "P3", "P3", "P3",
-        "P4", "P4", "P4",
-        "P5", "P5", "P5"),
-value = c(.1, .2, .3,
-          .4, .5, .6,
-          .7, .8, .9,
-          .10, .11, .12,
-          .13, .14, .15))
+df <- data.frame(
+  nm = c(
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C"
+  ),
+  spk = c(
+    "P1", "P1", "P1",
+    "P2", "P2", "P2",
+    "P3", "P3", "P3",
+    "P4", "P4", "P4",
+    "P5", "P5", "P5"
+  ),
+  value = c(
+    .1, .2, .3,
+    .4, .5, .6,
+    .7, .8, .9,
+    .10, .11, .12,
+    .13, .14, .15
+  )
+)
 spider_web(df,
-           ref_lines_label_spoke = c(4,3,0),
-           ref_lines_type = c(2, 3, 4),
-           ref_lines_color = c("black", "royalblue", "salmon"))
+  ref_lines_label_spoke = c(4, 3, 0),
+  ref_lines_type = c(2, 3, 4),
+  ref_lines_color = c("black", "royalblue", "salmon")
+)
 }

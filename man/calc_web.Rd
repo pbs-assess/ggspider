@@ -12,30 +12,38 @@ The remaining columns are the names of the 'spokes'.}
 }
 \value{
 A data.frame in 'long' format with columns 'group', 'x', and 'y' where group
- holds the names of the 'web' data groups, with 'x' and 'y' representing points on each
- spoke, with each group having number of rows = number of spokes plus one (the first one
- repeats at the end so that plot lines will connect).
+holds the names of the 'web' data groups, with 'x' and 'y' representing points on each
+spoke, with each group having number of rows = number of spokes plus one (the first one
+repeats at the end so that plot lines will connect).
 }
 \description{
 Title
 }
 \examples{
 \dontrun{
-df <- data.frame(nm = c("A", "B", "C",
-  "A", "B", "C",
-  "A", "B", "C",
-  "A", "B", "C",
-  "A", "B", "C"),
-spk = c("P1", "P1", "P1",
-        "P2", "P2", "P2",
-        "P3", "P3", "P3",
-        "P4", "P4", "P4",
-        "P5", "P5", "P5"),
-value = c(.1, .2, .3,
-          .4, .5, .6,
-          .7, .8, .9,
-          .10, .11, .12,
-          .13, .14, .15))
+df <- data.frame(
+  nm = c(
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C",
+    "A", "B", "C"
+  ),
+  spk = c(
+    "P1", "P1", "P1",
+    "P2", "P2", "P2",
+    "P3", "P3", "P3",
+    "P4", "P4", "P4",
+    "P5", "P5", "P5"
+  ),
+  value = c(
+    .1, .2, .3,
+    .4, .5, .6,
+    .7, .8, .9,
+    .10, .11, .12,
+    .13, .14, .15
+  )
+)
 ds <- tidyr::spread(df, key = "spk", value = "value")
 web <- calc_web(ds)
 }
