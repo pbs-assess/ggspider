@@ -242,7 +242,7 @@ spider_web <- function(df,
     ),
     lwd = 0.8
     ) +
-    coord_equal() +
+    coord_equal(clip = "off") +
     geom_text(
       data = spokes,
       aes_string(
