@@ -6,10 +6,11 @@
 \usage{
 spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
   spoke_color = "grey75", spoke_lty = 1, ref_lines_val = c(0.5, 0.75,
-  1), ref_lines_color = c("grey75", "grey75", "grey75"),
-  ref_lines_type = c(1, 1, 1), ref_label_color = c("grey50", "grey50",
-  "grey50"), ref_lines_label_spoke = c(length(unique(df[, spk_col, drop =
-  TRUE])), length(unique(df[, spk_col, drop = TRUE])), 0),
+  1), ref_lines_color = rep("grey75", length(ref_lines_val)),
+  ref_lines_type = rep(1, length(ref_lines_val)),
+  ref_label_color = rep("grey50", length(ref_lines_val)),
+  ref_lines_label_spoke = c(length(unique(df[, spk_col, drop = TRUE])),
+  length(unique(df[, spk_col, drop = TRUE])), 0),
   diff_lty_by_name = "ref", diff_lty = 2, palette = "Set2",
   show_legend = TRUE, leg_main_title = "Legend",
   leg_lty_title = "Linetype")
