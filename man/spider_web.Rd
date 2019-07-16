@@ -5,14 +5,14 @@
 \title{Make a spider web plot}
 \usage{
 spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
-  spoke_color = "grey75", spoke_lty = 1, ref_lines_val = c(0.5, 0.75,
-  1), ref_lines_color = rep("grey75", length(ref_lines_val)),
-  ref_lines_type = rep(1, length(ref_lines_val)),
+  spoke_color = "grey75", spoke_lty = 1, spoke_lwd = 1,
+  ref_lines_val = c(0.5, 0.75, 1), ref_lines_color = rep("grey75",
+  length(ref_lines_val)), ref_lines_type = rep(1, length(ref_lines_val)),
   ref_label_color = rep("grey50", length(ref_lines_val)),
   ref_lines_label_spoke = c(length(unique(df[, spk_col, drop = TRUE])),
   length(unique(df[, spk_col, drop = TRUE])), 0),
-  diff_lty_by_name = "ref", diff_lty = 2, palette = "Set2",
-  show_legend = TRUE, leg_main_title = "Legend",
+  diff_lty_by_name = "ref", diff_lty = 2, lwd = 1,
+  palette = "Set2", show_legend = TRUE, leg_main_title = "Legend",
   leg_lty_title = "Linetype")
 }
 \arguments{
@@ -44,6 +44,8 @@ of the values given in column grp_col. If they match, the \code{diff_lty} value 
 line type for those lines}
 
 \item{diff_lty}{Line type to use for \code{grp_col} values that \code{diff_lty_by_name} matches with \code{\link[=grep]{grep()}}}
+
+\item{lwd}{Line width for the main coloured lines.}
 
 \item{palette}{As defined in \code{\link[ggplot2:scale_color_brewer]{ggplot2::scale_color_brewer()}}}
 

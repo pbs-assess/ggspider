@@ -16,6 +16,7 @@
 #'  of the values given in column grp_col. If they match, the `diff_lty` value will be used for
 #'  line type for those lines
 #' @param diff_lty Line type to use for `grp_col` values that `diff_lty_by_name` matches with [grep()]
+#' @param lwd Line width for the main coloured lines.
 #' @param palette As defined in [ggplot2::scale_color_brewer()]
 #' @param show_legend Show legend?
 #' @param leg_main_title Main legend title
@@ -66,6 +67,7 @@ spider_web <- function(df,
                        value_col = "value",
                        spoke_color = "grey75",
                        spoke_lty = 1,
+                       spoke_lwd = 1,
                        ref_lines_val = c(0.5, 0.75, 1),
                        ref_lines_color = rep("grey75", length(ref_lines_val)),
                        ref_lines_type = rep(1, length(ref_lines_val)),
@@ -77,6 +79,7 @@ spider_web <- function(df,
                        ),
                        diff_lty_by_name = "ref",
                        diff_lty = 2,
+                       lwd = 1,
                        palette = "Set2",
                        show_legend = TRUE,
                        leg_main_title = "Legend",
@@ -240,7 +243,7 @@ spider_web <- function(df,
       color = "as.factor(group)",
       linetype = "as.factor(lty)"
     ),
-    lwd = 0.8
+    lwd = lwd
     ) +
     coord_equal(clip = "off") +
     geom_text(
