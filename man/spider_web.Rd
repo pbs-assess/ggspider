@@ -5,9 +5,9 @@
 \title{Make a spider web plot}
 \usage{
 spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
-  spoke_color = "grey75", spoke_lty = 1, spoke_lwd = 1,
-  ref_lines_val = c(0.5, 0.75, 1), ref_lines_color = rep("grey75",
-  length(ref_lines_val)), ref_lines_type = rep(1, length(ref_lines_val)),
+  spoke_color = "grey75", spoke_lty = 1, ref_lines_val = c(0.5, 0.75,
+  1), ref_lines_color = rep("grey75", length(ref_lines_val)),
+  ref_lines_type = rep(1, length(ref_lines_val)),
   ref_label_color = rep("grey50", length(ref_lines_val)),
   ref_lines_label_spoke = c(length(unique(df[, spk_col, drop = TRUE])),
   length(unique(df[, spk_col, drop = TRUE])), 0),
