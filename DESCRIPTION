@@ -2,11 +2,9 @@ Package: ggspider
 Title: Make a Spider or Radar Plot with ggplot2
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    c(person("Chris", "Grandin", role = c("aut", "cre"), email = "chris.grandin@dfo-mpo.gc.ca"),
+    person(c("Sean", "C."), "Anderson",
+    email = "sean.anderson@dfo-mpo.gc.ca", role = c("aut")))
 Description: Make a spider or radar plot with ggplot2.
 Imports:
     ggplot2,
