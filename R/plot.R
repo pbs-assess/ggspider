@@ -21,6 +21,7 @@
 #' @param show_legend Show legend?
 #' @param leg_main_title Main legend title
 #' @param leg_lty_title Linetype legend title
+#' @param return_data Logical? Return the data instead of the plot?
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_path geom_segment geom_text coord_equal
 #' @importFrom ggplot2 labs theme scale_color_brewer element_blank
@@ -82,7 +83,8 @@ spider_web <- function(df,
                        palette = "Set2",
                        show_legend = TRUE,
                        leg_main_title = "Legend",
-                       leg_lty_title = "Linetype") {
+                       leg_lty_title = "Linetype",
+                       return_data = FALSE) {
   if (!any("data.frame" %in% class(df)) || length(df) < 3 || nrow(df) < 1) {
     stop("Argument 'df' must be a data frame with at least one row and three columns")
   }
@@ -284,5 +286,13 @@ spider_web <- function(df,
   }
   g <- g + labs(linetype = leg_lty_title)
 
-  g
+  if (!return_data)
+    g
+  else
+    list(spider_data = spider_data, ref_lines_data = ref_lines_data,
+      spokes = spokes, label_data = label_data,
+      leg_lty_title = leg_lty_title, ref_label_color = ref_label_color,
+      leg_main_title = leg_main_title, spoke_color = spoke_color,
+      spoke_lty = spoke_lty, palette = palette,
+      ref_lines_to_label = ref_lines_to_label)
 }

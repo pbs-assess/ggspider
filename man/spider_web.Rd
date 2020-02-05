@@ -4,16 +4,28 @@
 \alias{spider_web}
 \title{Make a spider web plot}
 \usage{
-spider_web(df, grp_col = "nm", spk_col = "spk", value_col = "value",
-  spoke_color = "grey75", spoke_lty = 1, ref_lines_val = c(0.5, 0.75,
-  1), ref_lines_color = rep("grey75", length(ref_lines_val)),
+spider_web(
+  df,
+  grp_col = "nm",
+  spk_col = "spk",
+  value_col = "value",
+  spoke_color = "grey75",
+  spoke_lty = 1,
+  ref_lines_val = c(0.5, 0.75, 1),
+  ref_lines_color = rep("grey75", length(ref_lines_val)),
   ref_lines_type = rep(1, length(ref_lines_val)),
   ref_label_color = rep("grey50", length(ref_lines_val)),
   ref_lines_label_spoke = c(length(unique(df[, spk_col, drop = TRUE])),
-  length(unique(df[, spk_col, drop = TRUE])), 0),
-  diff_lty_by_name = "ref", diff_lty = 2, lwd = 1,
-  palette = "Set2", show_legend = TRUE, leg_main_title = "Legend",
-  leg_lty_title = "Linetype")
+    length(unique(df[, spk_col, drop = TRUE])), 0),
+  diff_lty_by_name = "ref",
+  diff_lty = 2,
+  lwd = 1,
+  palette = "Set2",
+  show_legend = TRUE,
+  leg_main_title = "Legend",
+  leg_lty_title = "Linetype",
+  return_data = FALSE
+)
 }
 \arguments{
 \item{df}{A data.frame representing groups and spokes for the plot (see examples)}
@@ -54,6 +66,8 @@ line type for those lines}
 \item{leg_main_title}{Main legend title}
 
 \item{leg_lty_title}{Linetype legend title}
+
+\item{return_data}{Logical? Return the data instead of the plot?}
 }
 \description{
 Make a spider web plot
