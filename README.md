@@ -1,7 +1,7 @@
 # ggspider
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/pbs-assess/ggspider.svg?branch=master)](https://travis-ci.org/pbs-assess/ggspider)
+[![R-CMD-check](https://github.com/pbs-assess/ggspider/workflows/R-CMD-check/badge.svg)](https://github.com/pbs-assess/ggspider/actions)
 <!-- badges: end -->
 
 A generalized spider plot package with ggplot2.
