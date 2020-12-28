@@ -257,7 +257,7 @@ spider_web <- function(df,
       colour = "grey30"
     ) +
     ggplot2::scale_color_brewer(name = leg_main_title, palette = palette, guide = "legend") +
-    ggplot2::scale_linetype_discrete(guide = FALSE) +
+    # ggplot2::scale_linetype_discrete(guide = FALSE) +
     ggplot2::theme_light() +
     ggplot2::theme(
       axis.line = element_blank(),
